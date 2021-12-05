@@ -1,24 +1,22 @@
 mod day1;
+mod day2;
 
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-    path::Path,
-};
-
-/// Load a file that contains a list of integers into the
-/// corresponding vector. Panic if anything goes wrong because I'm
-/// lazy.
-fn load_integers<I>(name: I) -> Vec<u32>
-where
-    I: AsRef<Path>,
-{
-    BufReader::new(File::open(name).unwrap())
-        .lines()
-        .map(|line| line.unwrap().parse::<u32>().unwrap())
-        .collect()
-}
+use std::env::args;
 
 fn main() {
-    day1::day1();
+    let args = args().collect::<Vec<_>>();
+    let n = if args.len() != 2 {
+        eprintln!("Usage: aoc <day_number>");
+        return;
+    } else {
+        args[1].parse::<usize>().unwrap()
+    };
+
+    match n {
+        1 => day1::day1(),
+        2 => day2::day2(),
+        _ => {
+            eprintln!("Invalid day number {}", n);
+        }
+    }
 }
